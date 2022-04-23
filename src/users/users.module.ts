@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
 
 import { UsersService } from './users.service';
-import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 import { hashPasswordHelper } from './helpers/hash-password.helper';
 import { UsersController } from './users.controller';
 import { UserPlantService } from './user.plant.service';
-import { UsersEvent } from './users.event';
+import { UserEventService } from './user.event';
 
 @Module({
   imports: [
@@ -26,8 +24,8 @@ import { UsersEvent } from './users.event';
       },
     ]),
   ],
-  providers: [UsersService, UserPlantService, UsersEvent],
-  exports: [UsersService, UsersEvent],
+  providers: [UsersService, UserPlantService, UserEventService],
+  exports: [UsersService, UserEventService],
   controllers: [UsersController],
 })
 export class UsersModule {}

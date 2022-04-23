@@ -15,7 +15,7 @@ export class UserPlantService {
     addToFavoriteDto: AddToFavoriteDto,
   ): Promise<Successful> {
     await this.userModel.findByIdAndUpdate(user.userId, {
-      $push: { favorites: addToFavoriteDto.plantId },
+      $addToSet: { favorites: addToFavoriteDto.plantId },
     });
     return { message: 'plant added to favorite list', status: Status.OK };
   }

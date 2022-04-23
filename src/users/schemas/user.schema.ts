@@ -5,7 +5,7 @@ import { Exclude } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '../../common/enums/role.enum';
 import { Plant } from '../../plants/schemas/plant.schema';
-import { Device } from '../../devices/schemas/device.schema';
+import { Device } from '../../device/schemas/device.schema';
 
 export type UserDocument = User & Document;
 

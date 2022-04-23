@@ -10,6 +10,7 @@ import { GetUser } from '../common/decorators/roles.decorator';
 import { UserPlantService } from './user.plant.service';
 import { AddToFavoriteDto } from './dto/add-to-favorite.dto';
 import { Plant } from '../plants/schemas/plant.schema';
+import { ExcludeObjectDto } from './dto/exclude-object.dto';
 
 @Controller('user')
 @ApiTags('User')
@@ -22,8 +23,11 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
   @ApiResponse({ status: 200, type: User })
-  getProfile(@GetUser() user): User {
-    return user;
+  async getProfile(
+    @GetUser() user,
+    @Body() excludeObjectDto?: ExcludeObjectDto,
+  ): Promise<User> {
+    return await this.userService.me(user, excludeObjectDto);
   }
 
   @UseGuards(AuthGuard('jwt'))

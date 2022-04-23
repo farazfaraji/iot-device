@@ -11,11 +11,23 @@ import { Successful } from '../common/types/successful.type';
 import { Message } from '../common/enums/message.enum';
 import { Status } from '../common/enums/status.enum';
 import { hashPasswordHelper } from './helpers/hash-password.helper';
-import { Device } from '../devices/schemas/device.schema';
+import { ExcludeObjectDto } from './dto/exclude-object.dto';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+
+  async me(user: User, excludeFields: ExcludeObjectDto) {
+    let excludeText = '';
+    for (let i = 0; i < excludeFields.excludes.length; i++) {
+      excludeText += ' -' + excludeFields.excludes[i];
+    }
+    return this.userModel
+      .findById(user.userId)
+      .select('-password' + excludeText)
+      .populate('devices')
+      .exec();
+  }
 
   async registerNewUser(newUserDto: NewUserDto): Promise<UserDocument> {
     try {
@@ -47,9 +59,5 @@ export class UsersService {
     if (userDocument)
       return { message: Message.SUCCESSFUL_CHANGE_PASSWORD, status: Status.OK };
     throw new BadRequestException();
-  }
-
-  async updateNewDevice(user: User, deviceMetaData: Device) {
-    console.log(user, deviceMetaData);
   }
 }

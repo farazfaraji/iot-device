@@ -1,17 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { join } from 'path';
 
 import configuration from './common/config/configuration.config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PlantsModule } from './plants/plants.module';
-import { APP_GUARD } from '@nestjs/core';
-import { DevicesModule } from './devices/devices.module';
-import { DeviceController } from './device/device.controller';
+import { DeviceModule } from './device/device.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EventbusModule } from './common/services/eventbus/eventbus.module';
 
@@ -30,10 +25,10 @@ import { EventbusModule } from './common/services/eventbus/eventbus.module';
     AuthModule,
     UsersModule,
     PlantsModule,
-    DevicesModule,
+    DeviceModule,
     EventbusModule,
   ],
-  controllers: [DeviceController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}
